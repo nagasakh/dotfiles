@@ -225,8 +225,25 @@ endif
 imap { {}<LEFT>
 imap [ []<LEFT>
 imap ( ()<LEFT>
+imap " ""<LEFT>
+imap ' ''<LEFT>
 """"""""""""""""""""""""""""""
 
+
+
+""""" ここから追加したオプション
+
+" vim起動時にNERDTree表示
+" ファイル指定で開かれた場合はNERDTreeは表示しない
+if !argc()
+  autocmd vimenter * NERDTree
+endif
+
+" タブの深さは半角2文字
+set shiftwidth=2
+
+
+""""" ここまで
 " filetypeの自動検出(最後の方に書いた方がいいらしい)
 filetype on
 
