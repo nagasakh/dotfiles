@@ -10,7 +10,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-"NeoBundle 'git://github.com/thinca/vim-quickrun.git'
+NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -80,8 +80,6 @@ set title
 set wildmenu
 " 入力中のコマンドを表示する
 set showcmd
-" バックアップディレクトリの指定(でもバックアップは使ってない)
-set backupdir=$HOME/.vimbackup
 " バッファで開いているファイルのディレクトリでエクスクローラを開始する(でもエクスプローラって使ってない)
 set browsedir=buffer
 " 小文字のみで検索したときに大文字小文字を無視する
@@ -222,13 +220,40 @@ endif
 """"""""""""""""""""""""""""""
 " 自動的に閉じ括弧を入力
 """"""""""""""""""""""""""""""
-imap { {}<LEFT>
-imap [ []<LEFT>
-imap ( ()<LEFT>
-imap " ""<LEFT>
-imap ' ''<LEFT>
+inoremap { {}<LEFT>
+inoremap [ []<LEFT>
+inoremap ( ()<LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
 """"""""""""""""""""""""""""""
+"----------------------------------------------------
+" バックアップ関係
+"----------------------------------------------------
+" バックアップをとらない
+set nobackup
+" ファイルの上書きの前にバックアップを作る
+" (ただし、backup がオンでない限り、バックアップは上書きに成功した後削除される)
+set writebackup
 
+"================================================================================
+" quickrun settings
+"================================================================================
+let g:quickrun_config = {}
+let g:quickrun_config._ = {'runner' : 'vimproc', "runner/vimproc/updatetime" : 10}
+let g:quickrun_config['ruby.rspec'] = {'command': 'rspec', 'cmdopt': '-cfd'}
+augroup UjihisaRSpec
+autocmd!
+autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
+augroup END
+nnoremap [quickrun] <Nop>
+nmap <Space>k [quickrun]
+nnoremap <silent> [quickrun]r :call QRunRspecCurrentLine()<CR>
+fun! QRunRspecCurrentLine()
+let line = line(".")
+exe ":QuickRun -exec '%c %s%o' -cmdopt ':" . line . " -cfd'"
+endfun
+
+let NERDTreeDirArrows=0
 
 
 """"" ここから追加したオプション
