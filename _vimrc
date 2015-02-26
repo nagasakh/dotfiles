@@ -267,6 +267,7 @@ endif
 " タブの深さは半角2文字
 set shiftwidth=2
 
+nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 
 """"" ここまで
 " filetypeの自動検出(最後の方に書いた方がいいらしい)
