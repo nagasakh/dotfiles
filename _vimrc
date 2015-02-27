@@ -10,7 +10,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'git://github.com/thinca/vim-quickrun.git'
+NeoBundle 'http://github.com/thinca/vim-quickrun.git'
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
