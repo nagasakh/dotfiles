@@ -30,7 +30,7 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-fugitive'
 
 " Rails向けのコマンドを提供する
-NeoBundle 'tpope/vim-rails'
+""NeoBundle 'tpope/vim-rails'
 " Ruby向けにendを自動挿入してくれる
 NeoBundle 'tpope/vim-endwise'
 
@@ -328,6 +328,9 @@ endif
 
 " shift + o で、改行を挿入（insertにしない）
 nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
+
+" nusでbackspaceが効かないので追記
+set backspace=indent,eol,start
 
 """"" ここまで
 " filetypeの自動検出(最後の方に書いた方がいいらしい)
