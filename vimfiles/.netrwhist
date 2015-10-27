@@ -1,3 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/home/nagasakh/dotfiles'
+let g:netrw_dirhist_2='/Users/nagasakh/projects/anst-lifestyle/.git'
+let g:netrw_dirhist_3='/Users/nagasakh/projects/anst-lifestyle/app/models'
+let g:netrw_dirhist_4='/Users/nagasakh/.vim'

@@ -48,6 +48,8 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 " less用のsyntaxハイライト
 NeoBundle 'KohPoll/vim-less'
 
+" go highlight etc.
+NeoBundle 'fatih/vim-go'
 
 
 call neobundle#end()
@@ -109,7 +111,8 @@ set whichwrap=b,s,h,l,<,>,[,]
 " 構文毎に文字色を変化させる
 syntax on
 " カラースキーマの指定
-colorscheme desert
+colorscheme molokai
+set t_Co=256
 " 行番号の色
 highlight LineNr ctermfg=darkyellow
 """"""""""""""""""""""""""""""
@@ -293,7 +296,8 @@ if has("autocmd")
     autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
     autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
     autocmd FileType eruby      setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType html       setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType pongo      setlocal sw=4 sts=4 ts=4 et
     autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
     autocmd FileType javascript setlocal sw=4 sts=4 ts=4 et
     autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
