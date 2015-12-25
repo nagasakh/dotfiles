@@ -11,5 +11,3 @@ LANG=ja_JP.UTF-8
 source ~/dotfiles/.git-completion.bash
 
 alias ll='ls -la'
-
-echo ".bashrc loaded"
