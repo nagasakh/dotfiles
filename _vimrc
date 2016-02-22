@@ -52,7 +52,21 @@ NeoBundle 'KohPoll/vim-less'
 NeoBundle 'fatih/vim-go'
 
 " javascript indenting
-NeoBundle 'jiangmial/simple-javascript-indenter'
+"NeoBundle 'jiangmial/simple-javascript-indenter'
+NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'Chiel92/vim-autoformat'
+NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['javascript', 'jade'], 'passive_filetypes': []}
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_jade_checkers = ['jade_lint']
+augroup JsConfig
+  autocmd!
+  autocmd BufWrite *.{js,json,jade} :Autoformat
+  autocmd BufWrite *.{js,json,jade} :SyntasticCheck
+  autocmd BufWrite *.{js,json,jade} :Errors
+augroup END
 
 call neobundle#end()
 
@@ -151,16 +165,16 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 " 全角スペースの表示
 """"""""""""""""""""""""""""""
 function! ZenkakuSpace()
-    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+  highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
 endfunction
 
 if has('syntax')
-    augroup ZenkakuSpace
-        autocmd!
-        autocmd ColorScheme * call ZenkakuSpace()
-        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
-    augroup END
-    call ZenkakuSpace()
+  augroup ZenkakuSpace
+    autocmd!
+    autocmd ColorScheme * call ZenkakuSpace()
+    autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+  augroup END
+  call ZenkakuSpace()
 endif
 """"""""""""""""""""""""""""""
 
@@ -203,10 +217,10 @@ endfunction
 " 最後のカーソル位置を復元する
 """"""""""""""""""""""""""""""
 if has("autocmd")
-    autocmd BufReadPost *
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \   exe "normal! g'\"" |
-    \ endif
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+        \   exe "normal! g'\"" |
+        \ endif
 endif
 """"""""""""""""""""""""""""""
 
@@ -235,15 +249,15 @@ let g:quickrun_config = {}
 let g:quickrun_config._ = {'runner' : 'vimproc', "runner/vimproc/updatetime" : 10}
 let g:quickrun_config['ruby.rspec'] = {'command': 'rspec', 'cmdopt': '-cfd'}
 augroup UjihisaRSpec
-autocmd!
-autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
+  autocmd!
+  autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
 augroup END
 nnoremap [quickrun] <Nop>
 nmap <Space>k [quickrun]
 nnoremap <silent> [quickrun]r :call QRunRspecCurrentLine()<CR>
 fun! QRunRspecCurrentLine()
-let line = line(".")
-exe ":QuickRun -exec '%c %s%o' -cmdopt ':" . line . " -cfd'"
+  let line = line(".")
+  exe ":QuickRun -exec '%c %s%o' -cmdopt ':" . line . " -cfd'"
 endfun
 
 let NERDTreeDirArrows=0
@@ -287,39 +301,40 @@ set tabstop=4 shiftwidth=4 softtabstop=0 expandtab
 "==============================
 
 if has("autocmd")
-    filetype plugin on
-    filetype indent on
+  filetype plugin on
+  filetype indent on
 
-    autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType eruby      setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType pongo      setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType django     setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType javascript setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType python     setlocal sw=4 sts=4 ts=4 et textwidth=80 cinwords=if,elif,else,for,while,try,except,finally,def,class
-    autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType ruby.rspec setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType sh         setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
-    autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
-    autocmd FileType manifest   setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType eruby      setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType pongo      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType django     setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType javascript setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType jade       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType python     setlocal sw=4 sts=4 ts=4 et textwidth=80 cinwords=if,elif,else,for,while,try,except,finally,def,class
+  autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType ruby.rspec setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType sh         setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType manifest   setlocal sw=2 sts=2 ts=2 et
 endif
 
 "==============================
