@@ -7,3 +7,5 @@ fi
 
 # User specific aliases and functions
 source ~/dotfiles/.git-completion.bash
+
+alias ll='ls -l'
