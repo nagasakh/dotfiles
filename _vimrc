@@ -10,7 +10,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'http://github.com/thinca/vim-quickrun.git'
+NeoBundle 'git@github.com:thinca/vim-quickrun.git'
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -30,7 +30,7 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-fugitive'
 
 " Rails向けのコマンドを提供する
-NeoBundle 'tpope/vim-rails'
+""NeoBundle 'tpope/vim-rails'
 " Ruby向けにendを自動挿入してくれる
 NeoBundle 'tpope/vim-endwise'
 
@@ -48,7 +48,11 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 " less用のsyntaxハイライト
 NeoBundle 'KohPoll/vim-less'
 
+" go highlight etc.
 NeoBundle 'fatih/vim-go'
+
+" javascript indenting
+NeoBundle 'jiangmiao/simple-javascript-indenter'
 
 call neobundle#end()
 
@@ -102,29 +106,18 @@ set listchars=tab:>\ ,extends:<
 set number
 " 対応する括弧やブレースを表示する
 set showmatch
-" 改行時に前の行のインデントを継続する
-set autoindent
-" 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
-set smartindent
-" タブ文字の表示幅
-set tabstop=2
-" Vimが挿入するインデントの幅
-set shiftwidth=2
 " 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
-set smarttab
+"set smarttab
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 " 構文毎に文字色を変化させる
 syntax on
 " カラースキーマの指定
-colorscheme desert
+colorscheme molokai
+set t_Co=256
 " 行番号の色
 highlight LineNr ctermfg=darkyellow
 """"""""""""""""""""""""""""""
-
-" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
-let g:indent_guides_enable_on_vim_startup = 1
-
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
 
@@ -270,8 +263,84 @@ let g:quickrun_config = {
 
 let NERDTreeDirArrows=0
 
+"=================================================================================
+" vim indent guides
+"=================================================================================
+" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
+set expandtab
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+autocmd VimEnter,Colorscheme * :hi SpecialKey term=bold ctermfg=9
+" 偶数インデントのカラー
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven term=bold ctermfg=9 guibg=#262626 ctermbg=darkgray
+" 奇数インデントのカラー
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd term=bold ctermfg=9 guibg=#3c3c3c ctermbg=gray
+" ハイライト色の変化の幅
+let g:indent_guides_color_change_percent = 30
+" ガイドの幅
+let g:indent_guides_guide_size = 1
 
-""""" ここから追加したオプション
+
+"==============================
+" Indent Settings
+"==============================
+" オートインデントを有効にする
+set autoindent
+set smartindent
+set cindent
+"Default setting
+set tabstop=4 shiftwidth=4 softtabstop=0 expandtab
+
+
+"==============================
+" setting in each file type
+" ts : タブが対応する空白の数
+" sts : タブやバックスペースの使用等の編集操作をするときに、タブが対応する空白の数
+" sw : インデントの各段階に使われる空白の数
+" et : タブにスペースを使う
+"==============================
+
+if has("autocmd")
+    filetype plugin on
+    filetype indent on
+
+    autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType css        setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType eruby      setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType pongo      setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType django     setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType javascript setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType python     setlocal sw=4 sts=4 ts=4 et textwidth=80 cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType ruby.rspec setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType sh         setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
+    autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType manifest   setlocal sw=2 sts=2 ts=2 et
+endif
+
+"==============================
+
+
+command! -nargs=+ -bang -complete=file Rename let pbnr=fnamemodify(bufname('%'), ':p')|exec 'f '.escape(<q-args>, ' ')|w<bang>|call delete(pbnr)
 
 " vim起動時にNERDTree表示
 " ファイル指定で開かれた場合はNERDTreeは表示しない
@@ -279,12 +348,15 @@ if !argc()
   autocmd vimenter * NERDTree
 endif
 
-" タブの深さは半角2文字
-set shiftwidth=2
-
+" shift + o で、改行を挿入（insertにしない）
 nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
+
+" nusでbackspaceが効かないので追記
+set backspace=indent,eol,start
+
+" js indent
+let g:SimpleJsIndenter_BriefMode = 4
 
 """"" ここまで
 " filetypeの自動検出(最後の方に書いた方がいいらしい)
 filetype on
-
