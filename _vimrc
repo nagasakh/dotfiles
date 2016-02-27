@@ -275,9 +275,9 @@ let NERDTreeDirArrows=0
 
 " vim起動時にNERDTree表示
 " ファイル指定で開かれた場合はNERDTreeは表示しない
-""if !argc()
+if !argc()
   autocmd vimenter * NERDTree
-""endif
+endif
 
 " タブの深さは半角2文字
 set shiftwidth=2
