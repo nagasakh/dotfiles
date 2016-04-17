@@ -125,8 +125,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 """"""""""""""""""""""""""""""
 " Unit.vimの設定
 """"""""""""""""""""""""""""""
-" 入力モードで開始する
-let g:unite_enable_start_insert=1
+" 入力モードで開始しない
+let g:unite_enable_start_insert=0
+" Uniteを開く時、垂直分割で開く
+let g:unite_enable_split_vertically=1
 " バッファ一覧
 noremap <C-P> :Unite buffer<CR>
 " ファイル一覧
