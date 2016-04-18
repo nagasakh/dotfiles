@@ -10,7 +10,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'http://github.com/thinca/vim-quickrun.git'
+NeoBundle 'thinca/vim-quickrun.git'
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -52,21 +52,12 @@ NeoBundle 'KohPoll/vim-less'
 NeoBundle 'fatih/vim-go'
 
 " javascript indenting
-"NeoBundle 'jiangmial/simple-javascript-indenter'
 NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'scrooloose/syntastic'
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['javascript', 'jade'], 'passive_filetypes': []}
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_jade_checkers = ['jade_lint']
-augroup JsConfig
-  autocmd!
-  autocmd BufWrite *.{js,json,jade} :Autoformat
-  autocmd BufWrite *.{js,json,jade} :SyntasticCheck
-  autocmd BufWrite *.{js,json,jade} :Errors
-augroup END
+
 
 call neobundle#end()
 
@@ -139,8 +130,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 """"""""""""""""""""""""""""""
 " Unit.vimの設定
 """"""""""""""""""""""""""""""
-" 入力モードで開始する
-let g:unite_enable_start_insert=1
+" 入力モードで開始しない
+let g:unite_enable_start_insert=0
+" Uniteを開く時、垂直分割で開く
+let g:unite_enable_split_vertically=1
 " バッファ一覧
 noremap <C-P> :Unite buffer<CR>
 " ファイル一覧
@@ -248,19 +241,43 @@ set writebackup
 let g:quickrun_config = {}
 let g:quickrun_config._ = {'runner' : 'vimproc', "runner/vimproc/updatetime" : 10}
 let g:quickrun_config['ruby.rspec'] = {'command': 'rspec', 'cmdopt': '-cfd'}
-augroup UjihisaRSpec
+augroup quickrun_settings
   autocmd!
   autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
+  autocmd BufRead,BufNewFile *_test.go set filetype=go.test
 augroup END
-nnoremap [quickrun] <Nop>
-nmap <Space>k [quickrun]
-nnoremap <silent> [quickrun]r :call QRunRspecCurrentLine()<CR>
-fun! QRunRspecCurrentLine()
-  let line = line(".")
-  exe ":QuickRun -exec '%c %s%o' -cmdopt ':" . line . " -cfd'"
-endfun
+
+let g:quickrun_config = {
+\   "_" : {
+\       "outputter/buffer/split" : ":botright",
+\       "outputter/buffer/close_on_empty" : 1,
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 10,
+\   },
+\  "ruby.rspec" : {
+\       "command": "rspec",
+\       "cmdopt": "-cfd",
+\   },
+\   "go.test": {
+\       "command" : "go",
+\       "exec" : ["%c test"],
+\   },
+\}
 
 let NERDTreeDirArrows=0
+
+"=================================================================================
+" js関係syntasitc
+"=================================================================================
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['javascript', 'jade'], 'passive_filetypes': []}
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_jade_checkers = ['jade_lint']
+augroup JsConfig
+  autocmd!
+  autocmd BufWrite *.{js,json,jade} :Autoformat
+  autocmd BufWrite *.{js,json,jade} :SyntasticCheck
+  autocmd BufWrite *.{js,json,jade} :Errors
+augroup END
 
 "=================================================================================
 " vim indent guides
@@ -360,4 +377,3 @@ let g:SimpleJsIndenter_BriefMode = 4
 """"" ここまで
 " filetypeの自動検出(最後の方に書いた方がいいらしい)
 filetype on
-
