@@ -58,6 +58,8 @@ NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'scrooloose/syntastic'
 
+" twig highlight
+NeoBundle 'evidens/vim-twig'
 
 call neobundle#end()
 
