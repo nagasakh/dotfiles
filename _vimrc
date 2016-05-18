@@ -30,9 +30,13 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-fugitive'
 
 " Rails向けのコマンドを提供する
-""NeoBundle 'tpope/vim-rails'
+NeoBundle 'tpope/vim-rails'
+" Railsでslimを使う場合のhighlight
+NeoBundle 'slim-template/vim-slim'
 " Ruby向けにendを自動挿入してくれる
 NeoBundle 'tpope/vim-endwise'
+" coffee scripts
+NeoBundle 'kchmck/vim-coffee-script'
 
 " コメントON/OFFを手軽に実行
 NeoBundle 'tomtom/tcomment_vim'
@@ -53,10 +57,11 @@ NeoBundle 'fatih/vim-go'
 
 " javascript indenting
 NeoBundle 'jelera/vim-javascript-syntax'
-NeoBundle 'pangloss/vim-javascript'
+"NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'jiangmiao/simple-javascript-indenter'
 
 " twig highlight
 NeoBundle 'evidens/vim-twig'
@@ -354,6 +359,7 @@ if has("autocmd")
   autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType manifest   setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType coffee    setlocal sw=2 sts=2 ts=2 et
 endif
 
 "==============================
@@ -374,7 +380,22 @@ nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 set backspace=indent,eol,start
 
 " js indent
-let g:SimpleJsIndenter_BriefMode = 4
+let g:SimpleJsIndenter_BriefMode = 2
+" この設定入れるとswitchのインデントがいくらかマシに
+let g:SimpleJsIndenter_CaseIndentLevel = -1
+
+"""" coffee scripts
+" vimにcoffeeファイルタイプを認識させる
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+" インデント設定
+" オートコンパイル
+  "保存と同時にコンパイルする
+autocmd BufWritePost *.coffee silent make! 
+  "エラーがあったら別ウィンドウで表示
+autocmd QuickFixCmdPost * nested cwindow | redraw! 
+" Ctrl-cで右ウィンドウにコンパイル結果を一時表示する
+nnoremap <silent> <C-C> :CoffeeCompile vert <CR><C-w>h
+
 
 """"" ここまで
 " filetypeの自動検出(最後の方に書いた方がいいらしい)
