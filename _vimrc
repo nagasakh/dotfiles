@@ -145,6 +145,8 @@ autocmd QuickFixCmdPost *grep* cwindow
 let g:unite_enable_start_insert=0
 " Uniteを開く時、垂直分割で開く
 let g:unite_enable_split_vertically=1
+
+let g:unite_data_directory = $HOME.'/.cache/neomru'
 " バッファ一覧
 noremap <C-P> :Unite buffer<CR>
 " ファイル一覧
