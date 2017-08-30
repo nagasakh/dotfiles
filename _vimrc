@@ -66,6 +66,10 @@ NeoBundle 'jiangmiao/simple-javascript-indenter'
 " twig highlight
 NeoBundle 'evidens/vim-twig'
 
+" scala用syntax highlight
+NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'gre/play2vim'
+
 call neobundle#end()
 
 filetype plugin indent on
@@ -292,7 +296,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_jade_checkers = ['jade_lint']
 augroup JsConfig
   autocmd!
-  autocmd BufWrite *.{js,json,jade} :Autoformat
+  ""autocmd BufWrite *.{js,json,jade} :Autoformat
   autocmd BufWrite *.{js,json,jade} :SyntasticCheck
   autocmd BufWrite *.{js,json,jade} :Errors
 augroup END
@@ -407,6 +411,7 @@ autocmd QuickFixCmdPost * nested cwindow | redraw!
 " Ctrl-cで右ウィンドウにコンパイル結果を一時表示する
 nnoremap <silent> <C-C> :CoffeeCompile vert <CR><C-w>h
 
+set fileencodings=utf-8,euc-jp
 
 """"" ここまで
 " filetypeの自動検出(最後の方に書いた方がいいらしい)
